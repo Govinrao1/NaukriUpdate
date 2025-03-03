@@ -6,7 +6,10 @@ import time
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.support.ui import WebDriverWait
+import os
 
+EMAIL = os.getenv("EMAIL")
+PASSWORD = os.getenv("PASSWORD")
 # Set up Chrome options for headless execution
 options = webdriver.ChromeOptions()
 # options.add_argument("--headless")  # Run without UI

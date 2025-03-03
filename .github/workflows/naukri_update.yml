@@ -1,0 +1,35 @@
+name: Naukri Profile Update
+
+on:
+  schedule:
+    - cron: '0 * * * *'  # Runs every hour
+  workflow_dispatch:  # Allows manual execution from GitHub
+
+jobs:
+  update_naukri_profile:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'  # Change this to match your local version
+
+      - name: Install Chrome & ChromeDriver
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y google-chrome-stable
+          sudo apt-get install -y chromedriver
+
+      - name: Install Dependencies
+        run: |
+          pip install selenium webdriver-manager
+
+      - name: Run Selenium Script
+        env:
+          EMAIL: ${{ secrets.NAUKRI_EMAIL }}
+          PASSWORD: ${{ secrets.NAUKRI_PASSWORD }}
+        run: python naukri_update.py
