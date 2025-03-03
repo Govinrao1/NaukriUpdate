@@ -12,14 +12,9 @@ EMAIL = os.getenv("EMAIL")
 PASSWORD = os.getenv("PASSWORD")
 # Set up Chrome options for headless execution
 options = webdriver.ChromeOptions()
-# options.add_argument("--headless")  # Run without UI
-# options.add_argument("--no-sandbox")
-# options.add_argument("--disable-dev-shm-usage")
-options.add_argument("--start-maximized")  # Open browser in full screen
-options.add_argument("--disable-infobars") # Remove automation banner
-options.add_argument("--disable-popup-blocking") # Disable pop-up
-
-# Start WebDriver
+options.add_argument("--headless")  # Run in headless mode for GitHub Actions
+options.add_argument("--no-sandbox")  # Required for running as root in CI/CD
+options.add_argument("--disable-dev-shm-usage")  # Prevent memory issu
 driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
 
  # Open Naukri.com
