@@ -11,12 +11,12 @@ import os
 
 # Set up Chrome options for headless execution
 options = webdriver.ChromeOptions()
-# options.add_argument("--headless")  # Run without UI
-# options.add_argument("--no-sandbox")
-# options.add_argument("--disable-dev-shm-usage")
-options.add_argument("--start-maximized")  # Open browser in full screen
-options.add_argument("--disable-infobars") # Remove automation banner
-options.add_argument("--disable-popup-blocking") # Disable pop-up
+options.add_argument("--no-sandbox")  # Required for GitHub Actions
+options.add_argument("--disable-dev-shm-usage")  # Prevents memory issues
+options.add_argument("--disable-gpu")  # Prevents GPU errors
+options.add_argument("--headless=new")  # Use headless mode to avoid UI issues
+options.add_argument("--remote-debugging-port=9222")  # Debugging
+options.add_argument("--user-data-dir=/tmp/chrome-profile")  # Isolated profile
 
 # Start WebDriver
 driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
