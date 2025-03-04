@@ -24,6 +24,6 @@ jobs:
 
       - name: Run Selenium Script
         env:
-          EMAIL: ${{ secrets.NAUKRI_EMAIL }}
-          PASSWORD: ${{ secrets.NAUKRI_PASSWORD }}
+          EMAIL: ${{ secrets.EMAIL }}
+          PASSWORD: ${{ secrets.PASSWORD }}
         run: python naukri_update.py
