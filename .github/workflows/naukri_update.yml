@@ -1,4 +1,4 @@
-name: Naukri Profile Update 
+name: Naukri Profile Update
 
 on:
   schedule:
@@ -21,16 +21,11 @@ jobs:
       - name: Install Chrome
         run: |
           sudo apt-get update
-          sudo apt-get install -y google-chrome-stable xvfb  # Install Xvfb
+          sudo apt-get install -y google-chrome-stable
 
       - name: Install Dependencies
         run: |
           pip install selenium webdriver-manager
-
-      - name: Start Virtual Display (Xvfb)
-        run: |
-          Xvfb :99 -screen 0 1920x1080x24 &  # Start virtual display in background
-          export DISPLAY=:99  # Set the display environment variable
 
       - name: Run Selenium Script
         env:
