@@ -7,8 +7,8 @@ import os
 EMAIL = os.getenv("EMAIL")
 PASSWORD = os.getenv("PASSWORD")
 
-if not EMAIL or not PASSWORD:
-    raise ValueError("EMAIL or PASSWORD environment variable is missing!")
+# if not EMAIL or not PASSWORD:
+#     raise ValueError("EMAIL or PASSWORD environment variable is missing!")
 
 # Set up Chrome options for GitHub Actions
 options = webdriver.ChromeOptions()
