@@ -3,7 +3,7 @@ name: Naukri Profile Update
 on:
   schedule:
     - cron: '0 * * * *'  # Runs every hour
-  workflow_dispatch:  # Allows manual execution from GitHub
+  workflow_dispatch:
 
 jobs:
   update_naukri_profile:
@@ -30,11 +30,10 @@ jobs:
           sudo chmod +x /usr/local/bin/chromedriver
 
       - name: Install Dependencies
-        run: |
-          pip install selenium webdriver-manager
+        run: pip install selenium webdriver-manager
 
       - name: Run Selenium Script
         env:
-          EMAIL: ${{ secrets.EMAIL }}
-          PASSWORD: ${{ secrets.PASSWORD }}
+          EMAIL: ${{ secrets.NAUKRI_EMAIL }}
+          PASSWORD: ${{ secrets.NAUKRI_PASSWORD }}
         run: python naukri_update.py
