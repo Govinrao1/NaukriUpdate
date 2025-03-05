@@ -24,7 +24,7 @@ driver = webdriver.Chrome(options=options)
 driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
 
 driver.get("https://www.naukri.com/")
-wait = WebDriverWait(driver, 25)  # Increase wait time
+wait = WebDriverWait(driver, 30)  # Increase wait time
 
 # Take screenshot for debugging
 # driver.save_screenshot("debug_screenshot.png")
@@ -61,12 +61,11 @@ driver.execute_script("arguments[0].click();", login_button)
 # Take a screenshot after login attempt
 # driver.save_screenshot("after_login.png")
 print("Loggedin successfully...")
-
+driver.save_screenshot("debug_screenshot.png")
 # Click on 'View' button
-view_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//a[text()='View']")))
-driver.execute_script("arguments[0].scrollIntoView();", view_button)  # Scroll to element
-time.sleep(1)  
-view_button.click()
+wait.until(EC.presence_of_element_located((By.XPATH, "//a[text()='View']")))
+time.sleep(2)  # Add delay
+wait.until(EC.element_to_be_clickable((By.XPATH, "//a[text()='View']"))).click()
 print("Clicked on View button...")
 time.sleep(1) 
 # Click on 'Career profile'
