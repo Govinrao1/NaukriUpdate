@@ -20,8 +20,10 @@ options.add_argument("--window-size=1920,1080")
 options.add_argument("start-maximized")
 options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
 # Initialize ChromeDriver
-driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
-# driver = webdriver.Chrome(options=options)
+user_data_dir = tempfile.mkdtemp()  # Creates a unique temporary directory
+options.add_argument(f"--user-data-dir={user_data_dir}")
+driver = webdriver.Chrome(options=options)
+# driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
 driver.get("https://www.naukri.com/")
 wait = WebDriverWait(driver, 30)  # Increase wait time
 
