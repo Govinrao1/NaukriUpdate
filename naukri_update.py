@@ -8,7 +8,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
 import time
 import os
-
+import tempfile
 email = os.getenv("NAUKRI_EMAIL")
 password = os.getenv("NAUKRI_PASSWORD")
 
