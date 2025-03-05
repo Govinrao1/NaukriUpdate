@@ -8,22 +8,20 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
 import time
 import os
-import tempfile
+
 email = os.getenv("NAUKRI_EMAIL")
 password = os.getenv("NAUKRI_PASSWORD")
 
 options = webdriver.ChromeOptions()
-# options.add_argument("--headless")  # Keep headless mode
+options.add_argument("--headless")  # Keep headless mode
 options.add_argument("--disable-blink-features=AutomationControlled")  # Avoid detection
 options.add_argument("--disable-gpu")
 options.add_argument("--window-size=1920,1080")
 options.add_argument("start-maximized")
 options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
 # Initialize ChromeDriver
-user_data_dir = tempfile.mkdtemp()  # Creates a unique temporary directory
-options.add_argument(f"--user-data-dir={user_data_dir}")
-driver = webdriver.Chrome(options=options)
 # driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+driver = webdriver.Chrome(options=options)
 driver.get("https://www.naukri.com/")
 wait = WebDriverWait(driver, 30)  # Increase wait time
 
@@ -65,13 +63,24 @@ print("Loggedin successfully...")
 time.sleep(10)
 driver.save_screenshot("debug_screenshot.png")
 # Click on 'View' button
-profile_button = wait.until(EC.visibility_of_element_located((By.XPATH, "//img[contains(@alt, 'naukri user profile img')]")))
-driver.execute_script("arguments[0].scrollIntoView(true);", profile_button)
-profile_button.click()
-time.sleep(5)
-view_button = wait.until(EC.visibility_of_element_located((By.XPATH, "//a[contains(text(), 'View & Update Profile')]")))
-driver.execute_script("arguments[0].scrollIntoView(true);", view_button)
-view_button.click()
+try:
+    # Wait until the 'View' button is present in the DOM
+    view_button = wait.until(EC.presence_of_element_located((By.XPATH, "//a[text()='View']")))
+    # Scroll to the 'View' button
+    driver.execute_script("arguments[0].scrollIntoView(true);", view_button)
+    # Click the 'View' button using JavaScript
+    driver.execute_script("arguments[0].click();", view_button)
+    print("Clicked on 'View' button...")
+except TimeoutException:
+    print("'View' button not found via normal method, trying JavaScript execution.")
+    # Attempt to locate and click the 'View' button using JavaScript
+    view_button = driver.execute_script("return document.evaluate(\"//a[text()='View']\", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;")
+    if view_button:
+        driver.execute_script("arguments[0].click();", view_button)
+        print("Clicked on 'View' button using JavaScript execution.")
+    else:
+        print("'View' button still not found. Printing page source for debugging:")
+        print(driver.page_source)
 print("Clicked on View button...")
 time.sleep(2) 
 
