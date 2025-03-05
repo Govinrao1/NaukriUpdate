@@ -54,8 +54,9 @@ try:
     # Wait for the profile page to load
     time.sleep(5)
     # Click on the 'View' button
-    view_button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "body > main > div > div > div.user-details.br-10.border.left-section > div > div.other-info-wrapper > div.view-profile-wrapper > a")))
-    driver.execute_script("arguments[0].click();", view_button)
+    locator = (By.CSS_SELECTOR, "body > main > div > div > div.user-details.br-10.border.left-section > div > div.other-info-wrapper > div.view-profile-wrapper > a")
+    element = driver.find_element(*locator)
+    driver.execute_script("arguments[0].click();", element)
     print("Clicked on 'View' button...")
 
     # Wait for the 'Career profile' section to load
