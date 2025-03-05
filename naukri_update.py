@@ -60,12 +60,17 @@ driver.execute_script("arguments[0].click();", login_button)
 # Take a screenshot after login attempt
 # driver.save_screenshot("after_login.png")
 print("Loggedin successfully...")
-time.sleep(5)
+time.sleep(10)
 driver.save_screenshot("debug_screenshot.png")
 # Click on 'View' button
-actions = ActionChains(driver)
-view_button = wait.until(EC.presence_of_element_located((By.XPATH, "//a[text()='View']")))
-actions.move_to_element(view_button).click().perform()
+try:
+    wait = WebDriverWait(driver, 60)
+    view_button = wait.until(EC.visibility_of_element_located((By.XPATH, "//a[text()='View']")))
+    driver.execute_script("arguments[0].scrollIntoView(true);", view_button)
+    view_button.click()
+    time.sleep(2)
+except TimeoutException:
+    print("The 'View' button was not found or not clickable within the wait time.")
 print("Clicked on View button...")
 time.sleep(2) 
 
