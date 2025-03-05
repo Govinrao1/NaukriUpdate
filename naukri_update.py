@@ -5,6 +5,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.action_chains import ActionChains
 import time
 import os
 
@@ -59,14 +60,12 @@ driver.execute_script("arguments[0].click();", login_button)
 # Take a screenshot after login attempt
 # driver.save_screenshot("after_login.png")
 print("Loggedin successfully...")
+time.sleep(5)
 driver.save_screenshot("debug_screenshot.png")
-time.sleep(3)
-WebDriverWait(driver, 30).until(lambda d: d.execute_script('return document.readyState') == 'complete')
-
 # Click on 'View' button
+actions = ActionChains(driver)
 view_button = wait.until(EC.presence_of_element_located((By.XPATH, "//a[text()='View']")))
-driver.execute_script("arguments[0].scrollIntoView(true);", view_button)
-driver.execute_script("arguments[0].click();", view_button)
+actions.move_to_element(view_button).click().perform()
 print("Clicked on View button...")
 time.sleep(2) 
 
