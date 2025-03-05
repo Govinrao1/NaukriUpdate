@@ -13,7 +13,7 @@ email = os.getenv("NAUKRI_EMAIL")
 password = os.getenv("NAUKRI_PASSWORD")
 
 options = webdriver.ChromeOptions()
-options.add_argument("--headless")  # Keep headless mode
+# options.add_argument("--headless")  # Keep headless mode
 options.add_argument("--disable-blink-features=AutomationControlled")  # Avoid detection
 options.add_argument("--disable-gpu")
 options.add_argument("--window-size=1920,1080")
