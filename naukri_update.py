@@ -19,8 +19,8 @@ options.add_argument("--window-size=1920,1080")
 options.add_argument("start-maximized")
 options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
 # Initialize ChromeDriver
-driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
-
+# driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+driver = webdriver.Chrome(options=options)
 driver.get("https://www.naukri.com/")
 wait = WebDriverWait(driver, 30)  # Increase wait time
 
@@ -45,12 +45,12 @@ except:
 # Ensure Email input is visible and scroll into view
 email_input = wait.until(EC.visibility_of_element_located((By.XPATH, "//input[@placeholder='Enter your active Email ID / Username']")))
 driver.execute_script("arguments[0].scrollIntoView();", email_input)
-email_input.send_keys(email)
+email_input.send_keys("govind1999rao@gmail.com")
 
 # Ensure Password input is visible and scroll into view
 password_input = wait.until(EC.visibility_of_element_located((By.XPATH, "//input[@placeholder='Enter your password']")))
 driver.execute_script("arguments[0].scrollIntoView();", password_input)
-password_input.send_keys(password)
+password_input.send_keys("Govind123@#")
 
 # Click Login button using JavaScript
 login_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//button[text()='Login']")))
@@ -60,12 +60,13 @@ driver.execute_script("arguments[0].click();", login_button)
 # driver.save_screenshot("after_login.png")
 print("Loggedin successfully...")
 driver.save_screenshot("debug_screenshot.png")
-time.sleep(5)
+time.sleep(3)
+WebDriverWait(driver, 30).until(lambda d: d.execute_script('return document.readyState') == 'complete')
+
 # Click on 'View' button
 view_button = wait.until(EC.presence_of_element_located((By.XPATH, "//a[text()='View']")))
-driver.execute_script("arguments[0].scrollIntoView(true);", view_button)  # Scroll to element
-time.sleep(1)  # Small delay
-view_button.click()
+driver.execute_script("arguments[0].scrollIntoView(true);", view_button)
+driver.execute_script("arguments[0].click();", view_button)
 print("Clicked on View button...")
 time.sleep(2) 
 
