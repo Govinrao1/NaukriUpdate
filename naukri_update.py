@@ -63,14 +63,13 @@ print("Loggedin successfully...")
 time.sleep(10)
 driver.save_screenshot("debug_screenshot.png")
 # Click on 'View' button
-try:
-    wait = WebDriverWait(driver, 60)
-    view_button = wait.until(EC.visibility_of_element_located((By.XPATH, "//a[text()='View']")))
-    driver.execute_script("arguments[0].scrollIntoView(true);", view_button)
-    view_button.click()
-    time.sleep(2)
-except TimeoutException:
-    print("The 'View' button was not found or not clickable within the wait time.")
+profile_button = wait.until(EC.visibility_of_element_located((By.XPATH, "//img[contains(@alt, 'naukri user profile img')]")))
+driver.execute_script("arguments[0].scrollIntoView(true);", profile_button)
+profile_button.click()
+time.sleep(5)
+view_button = wait.until(EC.visibility_of_element_located((By.XPATH, "//a[contains(text(), 'View & Update Profile')]")))
+driver.execute_script("arguments[0].scrollIntoView(true);", view_button)
+view_button.click()
 print("Clicked on View button...")
 time.sleep(2) 
 
