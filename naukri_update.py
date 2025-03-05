@@ -24,7 +24,7 @@ driver = webdriver.Chrome(options=options)
 driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
 
 driver.get("https://www.naukri.com/")
-wait = WebDriverWait(driver, 20)  # Increase wait time
+wait = WebDriverWait(driver, 25)  # Increase wait time
 
 # Take screenshot for debugging
 # driver.save_screenshot("debug_screenshot.png")
@@ -63,9 +63,12 @@ driver.execute_script("arguments[0].click();", login_button)
 print("Loggedin successfully...")
 
 # Click on 'View' button
-wait.until(EC.element_to_be_clickable((By.XPATH, "//a[text()='View']"))).click()
+view_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//a[text()='View']")))
+driver.execute_script("arguments[0].scrollIntoView();", view_button)  # Scroll to element
+time.sleep(1)  
+view_button.click()
 print("Clicked on View button...")
-
+time.sleep(1) 
 # Click on 'Career profile'
 wait.until(EC.element_to_be_clickable((By.XPATH, "//ul[@class='collection']//span[contains(text(), 'Career profile')]"))).click()
 print("Clicked on Career profile button...")
@@ -77,7 +80,7 @@ element = wait.until(EC.element_to_be_clickable((By.XPATH, "//div[@class='desire
 driver.execute_script("arguments[0].click();", element)
 print("Clicked on Edit pencil button...")
 # driver.save_screenshot("Edit_Pencil.png")
-
+time.sleep(2) 
 # Check if 'Mumbai' is present and update location
 locations = driver.find_elements(By.XPATH, "//div[@class='chipsContainer']//div//span")
 if any(location.text.strip() == "Mumbai" for location in locations):
