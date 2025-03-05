@@ -22,16 +22,25 @@ options.add_argument("--window-size=1920,1080")  # Set window size for proper re
 driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
 
 driver.get("https://www.naukri.com/")
-wait = WebDriverWait(driver, 15)  # Increase wait time
+wait = WebDriverWait(driver, 20)  # Increase wait time
 
 # Take screenshot for debugging
 # driver.save_screenshot("debug_screenshot.png")
 
 # Click Login button
-search_button = wait.until(EC.presence_of_element_located((By.XPATH, "//a[text()='Login']")))
-driver.execute_script("arguments[0].scrollIntoView();", search_button)
-driver.execute_script("arguments[0].click();", search_button) 
-print("Clicked on Login button...")
+try:
+    search_button = wait.until(EC.presence_of_element_located((By.XPATH, "//a[text()='Login']")))
+    driver.execute_script("arguments[0].scrollIntoView();", search_button)
+    driver.execute_script("arguments[0].click();", search_button) 
+    print("Clicked on Login button...")
+except:
+    print("Login button not found via normal method, trying JavaScript execution.")
+    search_button = driver.execute_script("return document.evaluate(\"//a[text()='Login']\", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;")
+    if search_button:
+        search_button.click()
+    else:
+        print("Login button still not found. Printing page source for debugging:")
+        print(driver.page_source)
 
 # Ensure Email input is visible and scroll into view
 email_input = wait.until(EC.visibility_of_element_located((By.XPATH, "//input[@placeholder='Enter your active Email ID / Username']")))
