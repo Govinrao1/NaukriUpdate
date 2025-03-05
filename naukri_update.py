@@ -62,17 +62,18 @@ driver.execute_script("arguments[0].click();", login_button)
 # driver.save_screenshot("after_login.png")
 print("Loggedin successfully...")
 driver.save_screenshot("debug_screenshot.png")
+with open("github_page_source.html", "w", encoding="utf-8") as f:
+    f.write(driver.page_source)
+time.sleep(5)
 # Click on 'View' button
-wait.until(EC.presence_of_element_located((By.XPATH, "//a[text()='View']")))
-time.sleep(2)  # Add delay
-wait.until(EC.element_to_be_clickable((By.XPATH, "//a[text()='View']"))).click()
+wait.until(EC.presence_of_element_located((By.XPATH, "//a[text()='View']"))).click()
 print("Clicked on View button...")
-time.sleep(1) 
+time.sleep(2) 
 # Click on 'Career profile'
 wait.until(EC.element_to_be_clickable((By.XPATH, "//ul[@class='collection']//span[contains(text(), 'Career profile')]"))).click()
 print("Clicked on Career profile button...")
 # driver.save_screenshot("Career_profile.png")
-time.sleep(1)
+time.sleep(2)
 
 # Click on 'editOneTheme'
 element = wait.until(EC.element_to_be_clickable((By.XPATH, "//div[@class='desiredProfile']//span[text()='editOneTheme']")))
